@@ -1,0 +1,11 @@
+target/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Mac OS
+.DS_Store
+
+# H2 store
+*.db

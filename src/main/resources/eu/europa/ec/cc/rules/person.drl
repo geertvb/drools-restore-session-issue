@@ -1,0 +1,27 @@
+package eu.europa.ec.cc.rules;
+
+import eu.europa.ec.cc.drools.Person;
+import eu.europa.ec.cc.drools.RuleLogger;
+
+rule "Person"
+when
+    $p : Person( age < 50 )
+then
+    RuleLogger.info("Person: {}", $p);
+end
+
+rule "Age"
+when
+    $a : Integer()
+    $p : Person( age == $a )
+then
+    RuleLogger.info("Age: {}", $a);
+
+    // Modify person age using value from command
+    modify($p) {
+        setAge($a + 1)
+    }
+
+    // Remove command fact from session
+    delete($a);
+end
