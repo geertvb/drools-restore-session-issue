@@ -13,7 +13,7 @@ public class AppConfig {
 
     @Bean
     public StorageManagerFactory storageManagerFactory() {
-        return StorageManagerFactory.get();
+        return StorageManagerFactory.get("h2mvstore");
     }
 
     @Bean

@@ -1,5 +1,7 @@
 package eu.europa.ec.cc.drools;
 
+import org.drools.reliability.core.ReliableGlobalResolverFactory;
+import org.drools.reliability.core.SimpleReliableObjectStoreFactory;
 import org.drools.reliability.core.TestableStorageManager;
 import org.kie.api.runtime.KieSession;
 import org.slf4j.Logger;
@@ -23,6 +25,9 @@ public class App {
     }
 
     public static void main(String... args) {
+        SimpleReliableObjectStoreFactory.get("h2mvstore");
+        ReliableGlobalResolverFactory.get("h2mvstore");
+
         // Clean the database before starting the application
         cleanUpDatabase();
 
