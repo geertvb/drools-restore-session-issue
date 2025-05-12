@@ -18,7 +18,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <drools.version>9.44.0.Final</drools.version>
-        <lombok.version>1.18.36</lombok.version>
         <spring.version>6.2.5</spring.version>
 
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
@@ -84,12 +83,6 @@
             <groupId>org.kie</groupId>
             <artifactId>kie-api</artifactId>
             <version>${drools.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
         </dependency>
 
         <dependency>

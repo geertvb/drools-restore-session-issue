@@ -1,11 +1,11 @@
 package eu.europa.ec.cc.drools;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.conf.PersistedSessionOption;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import static org.kie.api.runtime.conf.PersistedSessionOption.PersistenceStrategy.STORES_ONLY;
@@ -13,13 +13,18 @@ import static org.kie.api.runtime.conf.PersistedSessionOption.SafepointStrategy.
 import static org.kie.api.runtime.conf.PersistedSessionOption.fromSession;
 import static org.kie.api.runtime.conf.PersistedSessionOption.newSession;
 
-@Slf4j
 @Component
-@RequiredArgsConstructor
 public class SessionFactory {
+
+    private final Logger log = LoggerFactory.getLogger(SessionFactory.class);
 
     private final KieServices kieServices;
     private final KieBase kieBase;
+
+    public SessionFactory(KieServices kieServices, KieBase kieBase) {
+        this.kieServices = kieServices;
+        this.kieBase = kieBase;
+    }
 
     public KieSession createSession() {
         return getKieSession(newSession());

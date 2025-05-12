@@ -1,21 +1,26 @@
 package eu.europa.ec.cc.drools;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.drools.reliability.core.TestableStorageManager;
 import org.kie.api.runtime.KieSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
 import static org.drools.reliability.h2mvstore.H2MVStoreStorageManager.cleanUpDatabase;
 
-@Slf4j
 @Component
-@RequiredArgsConstructor
 public class App {
+
+    private static final Logger LOG = LoggerFactory.getLogger(App.class);
 
     private final SessionFactory sessionFactory;
     private final TestableStorageManager storageManager;
+
+    public App(SessionFactory sessionFactory, TestableStorageManager storageManager) {
+        this.sessionFactory = sessionFactory;
+        this.storageManager = storageManager;
+    }
 
     public static void main(String... args) {
         // Clean the database before starting the application
@@ -41,7 +46,7 @@ public class App {
     }
 
     public long step1_insertPerson() {
-        log.info("----- step1 - Insert person -----");
+        LOG.info("----- step1 - Insert person -----");
 
         // Create a new Kie session
         var session = sessionFactory.createSession();
@@ -56,7 +61,7 @@ public class App {
     }
 
     public void step2_updateAge(long sessionId) {
-        log.info("----- step2 - Update age -----");
+        LOG.info("----- step2 - Update age -----");
 
         // Restore previously stored Kie session
         var session = sessionFactory.restoreSession(sessionId);
@@ -68,7 +73,7 @@ public class App {
     }
 
     public void step3_loadSession(long sessionId) {
-        log.info("----- step3 - Just load Session -----");
+        LOG.info("----- step3 - Just load Session -----");
 
         // Restore previously stored Kie session
         var session = sessionFactory.restoreSession(sessionId);
@@ -77,7 +82,7 @@ public class App {
     }
 
     public void step4_loadSession(long sessionId) {
-        log.info("----- step4 - Just load Session -----");
+        LOG.info("----- step4 - Just load Session -----");
 
         // Restore previously stored Kie session
         var session = sessionFactory.restoreSession(sessionId);
@@ -86,19 +91,19 @@ public class App {
     }
 
     public static void insertAndFire(KieSession session, Object object) {
-        log.info("Inserting {}", object);
+        LOG.info("Inserting {}", object);
 
         var handle = session.insert(object);
-        log.info("{} handle: {}", object.getClass().getSimpleName(), handle);
+        LOG.info("{} handle: {}", object.getClass().getSimpleName(), handle);
 
         var count = session.fireAllRules();
-        log.info("Fired {} rule(s) after insert {}", count, object);
+        LOG.info("Fired {} rule(s) after insert {}", count, object);
     }
 
     // Check that no more rules trigger before closing
     public static void checkBeforeClose(KieSession session) {
         var count = session.fireAllRules();
-        log.info("Fired {} rule(s) before closing", count);
+        LOG.info("Fired {} rule(s) before closing", count);
     }
 
 }
